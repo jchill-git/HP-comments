@@ -1,7 +1,8 @@
+
 #!/usr/bin/env python
 # coding: utf-8
 
-# # This a generic code to run LDA on a corpus
+# # Adapted from code by Fernando Nascimento
 
 # ## 0. Imports and Auxiliary functions
 
