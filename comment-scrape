@@ -1,0 +1,33 @@
+from goodreads import client
+import lxml
+import requests
+import re
+from lxml import html
+from lxml import etree
+from bs4 import BeautifulSoup
+
+gc = client.GoodreadsClient('CPEe7ci5KZQH6qwJKb43Rw', 'jLUo4SNTj5MWm7rJV458YxrF2ESYZxwjWMlXjCl4')
+
+bookid = 136251
+book = gc.book(bookid)
+isbn = book.isbn
+
+print(isbn)
+
+file = open("comment_text9.txt", "a", encoding="utf-8")
+
+for frame in range (0,9):
+    url = 'https://www.goodreads.com/api/reviews_widget_iframe?did=DEVELOPER_ID&amp;format=html&amp;isbn=%s&page=%s' % (isbn, frame+1)
+
+    page = requests.get(url)
+    root = html.fromstring(page.content.decode('UTF-8'))
+    reviews = root.xpath('//link[@itemprop="url"]/@href')
+
+    for reviewer in range (0,9):
+        review = reviews[reviewer]
+        page = requests.get(review)
+        #print(page.text)
+        soup = BeautifulSoup(page.text, "lxml")
+        content = soup.find("div", attrs={"class": "reviewText mediumText description readable"})
+        file.write(str(content.contents))
+file.close()
