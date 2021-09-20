@@ -6,7 +6,8 @@ from lxml import html
 from lxml import etree
 from bs4 import BeautifulSoup
 
-gc = client.GoodreadsClient('CPEe7ci5KZQH6qwJKb43Rw', 'jLUo4SNTj5MWm7rJV458YxrF2ESYZxwjWMlXjCl4')
+##add your own API information here
+gc = client.GoodreadsClient(API information)
 
 bookid = 136251
 book = gc.book(bookid)
