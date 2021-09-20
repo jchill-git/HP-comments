@@ -1,0 +1,43 @@
+def remove_html_tags(text):
+    """Remove html tags from a string"""
+    import re
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+    
+    import os 
+import unicodedata
+# Open your input files. You can put it in a loop if you have multiple files.
+folder = './Harry_Potter_comments'
+
+documents = []
+titles = []
+
+for file in os.listdir(folder):
+    if file.endswith(".txt"):
+        
+        filename = os.path.join(folder, file)
+        
+        title = os.path.join(file)
+        title = os.path.splitext(title)[0]
+        
+        print("Parsing: ", title)
+        
+        ## Open and read the file
+        file = open(filename, "r")         
+        doc = file.read()
+
+        ## Normalize to lower case
+        doc = doc.lower()
+
+        # Remove HTML tags
+        parsed_doc = remove_html_tags(doc)
+
+        # lets also remove end of line characters - You can also replace other characters as you need for your analysis
+        clean_doc = parsed_doc.replace('\\n', ' ')
+        clean_doc = unicodedata.normalize("NFKD", clean_doc)
+        clean_doc = clean_doc.replace('\xa0',' ')
+        clean_doc = clean_doc.replace(',',' ')
+
+        # And finally we can output it to a new text file
+        with open('clean_%s_comments.txt' % title, 'w') as f:
+            f.write(clean_doc)
