@@ -16,8 +16,11 @@ for year in years:
     top100 = x[:100]
     print(top100)
 
-    Write descriptions to txt
-    gc = client.GoodreadsClient('CPEe7ci5KZQH6qwJKb43Rw', 'jLUo4SNTj5MWm7rJV458YxrF2ESYZxwjWMlXjCl4')
+    ##Write descriptions to txt
+    
+    ##use your own API info here
+    gc = client.GoodreadsClient(API information)
+    
     file = open("description_text_%s.txt" % year, "a", encoding="utf-8")
     for code in top100:
         book = gc.book(code[1:-1])
