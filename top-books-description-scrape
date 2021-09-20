@@ -1,0 +1,27 @@
+from goodreads import client
+import requests
+import re
+from lxml import html
+
+years = range(2012, 2017)
+for year in years:
+    # Retrieve list of top 100 Goodreads book ids
+    url = 'https://www.goodreads.com/book/popular_by_date/%s' % year
+    page = requests.get(url)
+    root = html.fromstring(page.content.decode('UTF-8'))
+    content = root.xpath('//a[@class="bookTitle"]/@href')
+
+    s = ""
+    x = re.findall('\/\d+\-', s.join(content))
+    top100 = x[:100]
+    print(top100)
+
+    Write descriptions to txt
+    gc = client.GoodreadsClient('CPEe7ci5KZQH6qwJKb43Rw', 'jLUo4SNTj5MWm7rJV458YxrF2ESYZxwjWMlXjCl4')
+    file = open("description_text_%s.txt" % year, "a", encoding="utf-8")
+    for code in top100:
+        book = gc.book(code[1:-1])
+        print(book)
+        if(book.description != None):
+            file.write(book.description)
+    file.close()
